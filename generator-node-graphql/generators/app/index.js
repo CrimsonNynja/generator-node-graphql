@@ -8,26 +8,20 @@ module.exports = class extends Generator {
   async prompting() {
     this.answers = await this.prompt([
       {
-        type: 'checkbox',
+        type: 'list',
         name: 'database',
         message: 'Select the database type: ',
-        default: 'mongo',
         choices: [
-          {
-            name: 'noSQL (mongoose)',
-            value: 'mongo',
-          },
-          {
-            name: 'mySQL',
-            value: 'mysql',
-          }
+          'noSQL'
         ]
       },
-      {
-        type: 'confirm',
+      { //this should ask for an auth type
+        type: 'list',
         name: 'auth',
-        message: 'Would you like to generate an auth as well?',
-        default: true,
+        message: 'Select the auth type: ',
+        choices: [
+          'JWT'
+        ]
       }
     ]);
 
@@ -36,6 +30,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    const db = this.answers.database;
+    const auth = this.answers.auth;
+
     const pkg = this.fs.readJSON(this.destinationPath('package.json'),
       {
         "scripts": {
@@ -52,26 +49,9 @@ module.exports = class extends Generator {
       'apollo-server',
       'apollo-server-express',
       'graphql-import-node',
-      'merge-graphql-schemas'
+      'merge-graphql-schemas',
+      'dotenv'
     ]);
-
-    if (this.answers.auth === true) {
-      this.npmInstall([
-        'jsonwebtoken',
-        'express-jwt',
-        'dotenv',
-        'bcrypt'
-      ]);
-    }
-
-    // if (this.answers.database === 'mongo') {
-      this.npmInstall([
-        'mongoose'
-      ]);
-      this.npmInstall([
-        '@types/mongoose'
-      ], { 'save-dev': true });
-    // }
 
     this.npmInstall([
       '@types/express',
@@ -85,6 +65,23 @@ module.exports = class extends Generator {
       '@typescript-eslint/eslint-plugin@latest',
       '@typescript-eslint/parser@latest'
     ], { 'save-dev': true });
+
+    if (auth === 'JWT') {
+      this.npmInstall([
+        'jsonwebtoken',
+        'express-jwt',
+        'bcrypt'
+      ]);
+    }
+
+    if (db === 'noSQL') {
+      this.npmInstall([
+        'mongoose'
+      ]);
+      this.npmInstall([
+        '@types/mongoose'
+      ], { 'save-dev': true });
+    }
 
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
 
@@ -104,28 +101,25 @@ module.exports = class extends Generator {
       this.templatePath('tsconfig.json'),
       this.destinationPath('tsconfig.json')
     );
+    this.fs.copyTpl(
+      this.templatePath('user.graphql'),
+      this.destinationPath('src/graphql/schemas/user.graphql')
+    );
+    this.fs.copyTpl(
+      this.templatePath('userResolver.ts'),
+      this.destinationPath('src/graphql/resolvers/userResolver.ts')
+    );
 
-    // if (this.answers.database === 'mongo') {
-      this.fs.copyTpl(
-        this.templatePath('userModel.ts'),
-        this.destinationPath('src/models/userModel.ts')
-      );
-    // }
-
-    if (this.answers.auth === true) {
-      this.fs.copyTpl(
-        this.templatePath('user.graphql'),
-        this.destinationPath('src/graphql/schemas/user.graphql')
-      );
-      this.fs.copyTpl(
-        this.templatePath('userResolver.ts'),
-        this.destinationPath('src/graphql/resolvers/userResolver.ts')
-      );
-      this.fs.copyTpl(
-        this.templatePath('.env'),
-        this.destinationPath('.env')
-      );
-    }
+    //this will need to be thought out
+    this.fs.copyTpl(
+      this.templatePath('.env'),
+      this.destinationPath('.env')
+    );
+    //this is noSQL specific
+    this.fs.copyTpl(
+      this.templatePath('userModel.ts'),
+      this.destinationPath('src/models/userModel.ts')
+    );
   }
 
   install() {
