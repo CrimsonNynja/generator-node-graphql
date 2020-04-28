@@ -36,7 +36,15 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+    const pkg = this.fs.readJSON(this.destinationPath('package.json'),
+      {
+        "scripts": {
+          "dist": "node -r ts-node/register ./src/server.ts",
+          "start:watch": "nodemon",
+          "dev": "nodemon --exec ts-node src/server.ts"
+        }
+      }
+    );
 
     this.npmInstall([
       'lodash',
