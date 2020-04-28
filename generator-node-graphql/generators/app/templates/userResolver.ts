@@ -2,26 +2,30 @@ import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
-import * as UserModel from '../../models/userModel';
+import { UserModel } from '../../models/userModel';
 
 dotenv.config()
 
 const UserResolver = {
   Query: {
     async loggedInUser (_, args, { user }) {
+      console.log('req id: ' + user);
+
       if (!user) {
         throw new Error('You are not authenticated!')
       }
-
-      return await UserModel.findById(user.id)
+      const userModel = await UserModel.findById(user.id);
+      return userModel;
     },
   },
   Mutation: {
     async signup (_, { username, email, password }) {
-      const user = await UserModel.create(
-        email,
-        await bcrypt.hash(password, 10)
-      );
+      const pass = await bcrypt.hash(password, 10)
+      const user = new UserModel({
+        email: email,
+        password: pass,
+      });
+      user.save();
 
       return jsonwebtoken.sign(
         { id: user.id, email: user.email },
@@ -30,7 +34,7 @@ const UserResolver = {
       );
     },
     async login (_, { email, password }) {
-      const user = await UserModel.findByEmail(email);
+      const user = await UserModel.findOne({email: email});
       if (!user) {
         throw new Error('No user with that email');
       }

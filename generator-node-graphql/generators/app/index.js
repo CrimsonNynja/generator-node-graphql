@@ -50,6 +50,7 @@ module.exports = class extends Generator {
     if (this.answers.auth === true) {
       this.npmInstall([
         'jsonwebtoken',
+        'express-jwt',
         'dotenv',
         'bcrypt'
       ]);
@@ -100,10 +101,6 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath('userModel.ts'),
         this.destinationPath('src/models/userModel.ts')
-      );
-      this.fs.copyTpl(
-        this.templatePath('userSchema.ts'),
-        this.destinationPath('src/mongooseSchemas/userSchema.ts')
       );
     // }
 
