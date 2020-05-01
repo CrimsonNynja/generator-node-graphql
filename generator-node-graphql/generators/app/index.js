@@ -8,12 +8,23 @@ module.exports = class extends Generator {
   async prompting() {
     this.answers = await this.prompt([
       {
+        type: 'input',
+        name: 'projectName',
+        message: 'what is the name of your project?'
+      },
+      {
         type: 'list',
         name: 'database',
         message: 'Select the database type: ',
         choices: [
           'noSQL'
         ]
+      },
+      {
+        type: 'confirm',
+        name: 'defaultDB',
+        message: 'database connection will be set to the defaults, is this ok?',
+        default: true
       },
       { //this should ask for an auth type
         type: 'list',
@@ -25,7 +36,9 @@ module.exports = class extends Generator {
       }
     ]);
 
+    this.log('projectName', this.answers.projectName);
     this.log('database', this.answers.database);
+    this.log('defaultDB', this.answers.defaultDB);
     this.log('auth', this.answers.auth);
   }
 
