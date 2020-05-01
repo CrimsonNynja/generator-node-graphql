@@ -26,7 +26,25 @@ module.exports = class extends Generator {
         message: 'database connection will be set to the defaults, is this ok?',
         default: true
       },
-      { //this should ask for an auth type
+      {
+        type: 'input',
+        name: 'DbHost',
+        message: 'enter database host name: ',
+        default: 'localhost'
+      },
+      {
+        type: 'input',
+        name: 'DbPort',
+        message: 'enter database port: ',
+        default: '27017'
+      },
+      {
+        type: 'input',
+        name: 'DbName',
+        message: 'enter database name: ',
+        default: 'node-graphql'
+      },//need to add username and password as well
+      {
         type: 'list',
         name: 'auth',
         message: 'Select the auth type: ',
@@ -39,6 +57,11 @@ module.exports = class extends Generator {
     this.log('projectName', this.answers.projectName);
     this.log('database', this.answers.database);
     this.log('defaultDB', this.answers.defaultDB);
+    if (this.answers.defaultDB === false) {
+      this.log('DbHost', this.answers.DbHost);
+      this.log('DbPort', this.answers.DbPort);
+      this.log('DbName', this.answers.DbName);
+    }
     this.log('auth', this.answers.auth);
   }
 
@@ -141,10 +164,22 @@ module.exports = class extends Generator {
       this.destinationPath('src/graphql/resolvers/userResolver.ts')
     );
 
-    //this will need to be thought out
+
+      let port = '27017';
+      let host = 'localhost';
+      let name = this.answers.projectName;
+    if (this.answers.defaultDB === false) {
+      port = this.answers.DbPort;
+      host = this.answers.DbHost;
+      name = this.answers.DbName;
+    }
     this.fs.copyTpl(
       this.templatePath('.env'),
-      this.destinationPath('.env')
+      this.destinationPath('.env'), {
+        dbHost: host,
+        dbPort: port,
+        dbName: name
+      }
     );
     //this is noSQL specific
     this.fs.copyTpl(
