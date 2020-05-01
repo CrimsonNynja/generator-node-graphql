@@ -38,8 +38,18 @@ module.exports = class extends Generator {
         "scripts": {
           "dist": "node -r ts-node/register ./src/server.ts",
           "start:watch": "nodemon",
-          "dev": "nodemon --exec ts-node src/server.ts"
-        }
+          "dev": "nodemon --exec ts-node src/server.ts",
+          "test": "jest --runInBand ./tests",
+          "clear-cache": "jest --clearCache"
+        },
+        "jest": {
+          "testEnvironment": "node",
+          "transform": {
+            "\\.(gql|graphql)$": "jest-transform-graphql",
+            "^.+\\.jsx?$": "babel-jest",
+            "^.+\\.tsx?$": "ts-jest"
+          }
+        },
       }
     );
 
@@ -63,7 +73,14 @@ module.exports = class extends Generator {
       'typescript',
       'ts-node',
       '@typescript-eslint/eslint-plugin@latest',
-      '@typescript-eslint/parser@latest'
+      '@typescript-eslint/parser@latest',
+      'jest',
+      'ts-jest',
+      'faker',
+      'easygraphql-tester',
+      'jest-transform-graphql',
+      '@types/jest',
+      'mongodb-memory-server'
     ], { 'save-dev': true });
 
     if (auth === 'JWT') {
@@ -79,7 +96,8 @@ module.exports = class extends Generator {
         'mongoose'
       ]);
       this.npmInstall([
-        '@types/mongoose'
+        '@types/mongoose',
+        'mongodb-memory-server'
       ], { 'save-dev': true });
     }
 
@@ -119,6 +137,15 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('userModel.ts'),
       this.destinationPath('src/models/userModel.ts')
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('dbHandler.ts'),
+      this.destinationPath('tests/dbHandler.ts')
+    );
+    this.fs.copyTpl(
+      this.templatePath('userResolver.test.ts'),
+      this.destinationPath('tests/resolvers/userResolver.test.ts')
     );
   }
 

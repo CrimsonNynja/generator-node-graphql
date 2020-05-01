@@ -2,12 +2,10 @@ import 'graphql-import-node';
 import Mongoose from 'mongoose';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import * as g from 'apollo-server-express';
 import * as Lodash from 'lodash';
 import { makeExecutableSchema } from 'apollo-server';
 import { mergeTypes } from 'merge-graphql-schemas';
 import * as dotenv from 'dotenv'
-import bodyParser from 'body-parser';
 import jsonwebtoken from 'jsonwebtoken';
 
 import user from './graphql/schemas/user.graphql';

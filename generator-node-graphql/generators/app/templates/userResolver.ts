@@ -6,6 +6,9 @@ import { UserModel } from '../../models/userModel';
 
 dotenv.config()
 
+/**
+ * resolver for the user type, this also handles some JWT logic
+ */
 const UserResolver = {
   Query: {
     async loggedInUser (_, args, { user }) {
