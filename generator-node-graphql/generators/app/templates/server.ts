@@ -13,7 +13,7 @@ import userResolver from './graphql/resolvers/userResolver';
 
 dotenv.config();
 
-Mongoose.connect(`mongodb://localhost:27017`, {
+Mongoose.connect('mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT, {
   autoIndex: true,
   poolSize: 50,
   bufferMaxEntries: 0,
@@ -21,7 +21,7 @@ Mongoose.connect(`mongodb://localhost:27017`, {
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
-  dbName: 'yeoman',
+  dbName: process.env.DB_NAME,
 });
 
 const types = mergeTypes([
