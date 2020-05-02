@@ -58,6 +58,7 @@ module.exports = class extends Generator {
       }
     ]);
 
+    this.log('this is the new version');
     this.log('projectName', this.questions.projectName);
     this.log('database', this.questions.database);
     this.log('defaultDB', this.questions.defaultDB);

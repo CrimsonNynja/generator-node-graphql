@@ -7,7 +7,14 @@ First, install [Yeoman](http://yeoman.io) and generator-node-graphql using [npm]
 
 ```bash
 npm install -g yo
-npm install -g generator-node-graphql
+
+# for now you will have to link the generator locally
+# cd into the project file and run
+npm link
+# or
+yarn link
+
+# this will be enabled later npm install -g generator-node-graphql
 ```
 
 Then generate your new project:
