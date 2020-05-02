@@ -6,11 +6,12 @@ const yosay = require('yosay');
 
 module.exports = class extends Generator {
   async prompting() {
-    this.answers = await this.prompt([
+    this.questions = await this.prompt([
       {
         type: 'input',
         name: 'projectName',
-        message: 'what is the name of your project?'
+        message: 'what is the name of your project?',
+        default: 'node-graphql'
       },
       {
         type: 'list',
@@ -30,19 +31,22 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'DbHost',
         message: 'enter database host name: ',
-        default: 'localhost'
+        default: 'localhost',
+        when: (answers) => answers.defaultDB === false
       },
       {
         type: 'input',
         name: 'DbPort',
         message: 'enter database port: ',
-        default: '27017'
+        default: '27017',
+        when: (answers) => answers.defaultDB === false
       },
       {
         type: 'input',
         name: 'DbName',
         message: 'enter database name: ',
-        default: 'node-graphql'
+        default: 'node-graphql',
+        when: (answers) => answers.defaultDB === false
       },//need to add username and password as well
       {
         type: 'list',
@@ -54,20 +58,18 @@ module.exports = class extends Generator {
       }
     ]);
 
-    this.log('projectName', this.answers.projectName);
-    this.log('database', this.answers.database);
-    this.log('defaultDB', this.answers.defaultDB);
-    if (this.answers.defaultDB === false) {
-      this.log('DbHost', this.answers.DbHost);
-      this.log('DbPort', this.answers.DbPort);
-      this.log('DbName', this.answers.DbName);
-    }
-    this.log('auth', this.answers.auth);
+    this.log('projectName', this.questions.projectName);
+    this.log('database', this.questions.database);
+    this.log('defaultDB', this.questions.defaultDB);
+    this.log('DbHost', this.questions.DbHost);
+    this.log('DbPort', this.questions.DbPort);
+    this.log('DbName', this.questions.DbName);
+    this.log('auth', this.questions.auth);
   }
 
   writing() {
-    const db = this.answers.database;
-    const auth = this.answers.auth;
+    const db = this.questions.database;
+    const auth = this.questions.auth;
 
     const pkg = this.fs.readJSON(this.destinationPath('package.json'),
       {
@@ -167,11 +169,11 @@ module.exports = class extends Generator {
 
       let port = '27017';
       let host = 'localhost';
-      let name = this.answers.projectName;
-    if (this.answers.defaultDB === false) {
-      port = this.answers.DbPort;
-      host = this.answers.DbHost;
-      name = this.answers.DbName;
+      let name = this.questions.projectName;
+    if (this.questions.defaultDB === false) {
+      port = this.questions.DbPort;
+      host = this.questions.DbHost;
+      name = this.questions.DbName;
     }
     this.fs.copyTpl(
       this.templatePath('.env'),
