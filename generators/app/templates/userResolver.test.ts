@@ -16,73 +16,69 @@ const schema = mergeTypes([user], { all: true });
 
 let tester = null;
 beforeAll(async () => {
-    dbHandler.connect();
-    tester = new EasyGraphQLTester(schema, userResolver);
+  dbHandler.connect();
+  tester = new EasyGraphQLTester(schema, userResolver);
 });
 afterEach(async () => dbHandler.clearDatabase());
 afterAll(async () => dbHandler.closeDatabase());
 
-const fillDB = async num => {
-    const models = [];
-    for (let i = 0; i < num; i += 1) {
-        const password = faker.internet.password();
-        const user = new UserModel({
-            username: faker.internet.userName(),
-            email: faker.internet.email(),
-            password: await bcrypt.hash(password, 10),
-        });
-        await user.save();
-        user.password = password;
-        models.push(user);
-    }
-    return models;
+const fillDB = async (num) => {
+  const models = [];
+  for (let i = 0; i < num; i += 1) {
+    const password = faker.internet.password();
+    const user = new UserModel({
+      username: faker.internet.userName(),
+      email: faker.internet.email(),
+      password: await bcrypt.hash(password, 10),
+    });
+    await user.save();
+    user.password = password;
+    models.push(user);
+  }
+  return models;
 };
 
 test('test signup resolver', async () => {
-    const mutation = `
+  const mutation = `
     mutation signup($username: String!, $email: String!, $password: String!) {
       signup(username: $username, email: $email, password: $password)
     }
   `;
 
-    tester.test(true, mutation, {
-        username: 'username',
-        email: 'hudoc96@hotmail.com',
-        password: 'password',
-    });
-    const result = await tester.graphql(
-        mutation,
-        {},
-        {},
-        {
-            username: 'username',
-            email: 'hudoc96@hotmail.com',
-            password: 'password',
-        }
-    );
+  tester.test(true, mutation, {
+    username: 'username',
+    email: 'hudoc96@hotmail.com',
+    password: 'password',
+  });
 
-    expect(result.data.signup.length).not.toBe(0);
+  const result = await tester.graphql(mutation, {}, {}, {
+      username: 'username',
+      email: 'hudoc96@hotmail.com',
+      password: 'password',
+    }
+  );
+
+  expect(result.data.signup.length).not.toBe(0);
 });
 
 test('test login resolver', async () => {
-    const user = await fillDB(4);
-    const mutation = `
+  const user = await fillDB(4);
+  const mutation = `
     mutation login($email: String!, $password: String!) {
       login(email: $email, password: $password)
     }
   `;
-    tester.test(true, mutation, {
-        email: user[0].email,
-        password: user[0].password,
-    });
-    const result = await tester.graphql(
-        mutation,
-        {},
-        {},
-        {
-            email: user[0].email,
-            password: user[0].password,
-        }
-    );
-    expect(result.data.login.length).not.toBe(0);
+
+  tester.test(true, mutation, {
+    email: user[0].email,
+    password: user[0].password,
+  });
+
+  const result = await tester.graphql(mutation, {}, {}, {
+      email: user[0].email,
+      password: user[0].password,
+    }
+  );
+
+  expect(result.data.login.length).not.toBe(0);
 });
