@@ -1,9 +1,9 @@
 {
-  "generator-node": {
-    "promptValues": {
-      "authorName": "Hudson Cassidy",
-      "authorEmail": "hudoc96@hotmail.com",
-      "authorUrl": ""
+    "generator-node": {
+        "promptValues": {
+            "authorName": "Hudson Cassidy",
+            "authorEmail": "hudoc96@hotmail.com",
+            "authorUrl": "https://github.com/CrimsonNynja/generator-node-graphql"
+        }
     }
-  }
 }
