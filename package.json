@@ -17,28 +17,15 @@
         }
     ],
     "keywords": [
-        "",
         "yeoman-generator"
     ],
     "scripts": {
         "pretest": "eslint .",
-        "check": "prettier --check \"**/*.js\"",
-        "format": "prettier --write \"**/*.js\"",
         "test": "jest",
         "generator": "yo node-graphql"
     },
     "jest": {
         "testEnvironment": "node"
-    },
-    "lint-staged": {
-        "*.js": [
-            "eslint --fix",
-            "git add"
-        ],
-        "*.json": [
-            "prettier --write",
-            "git add"
-        ]
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^2.29.0",

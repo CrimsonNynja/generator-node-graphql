@@ -52,6 +52,13 @@ module.exports = class extends Generator {
         message: 'Select the auth type: ',
         choices: ['JWT'],
       },
+      {
+        type: 'input',
+        name: 'secretKey',
+        message: 'input JWT secret key: ',
+        default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+        when: () => answers.auth === 'JWT',
+      },
     ]);
 
     this.log('this is the new version');
@@ -62,6 +69,7 @@ module.exports = class extends Generator {
     this.log('DbPort', this.questions.DbPort);
     this.log('DbName', this.questions.DbName);
     this.log('auth', this.questions.auth);
+    this.log('secretKey', this.questions.secretKey);
   }
 
   writing() {
@@ -173,6 +181,7 @@ module.exports = class extends Generator {
       dbHost: host,
       dbPort: port,
       dbName: name,
+      jwtSecret: this.questions.jwtSecret,
     });
     //this is noSQL specific
     this.fs.copyTpl(
