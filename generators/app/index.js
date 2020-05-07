@@ -57,7 +57,7 @@ module.exports = class extends Generator {
         name: 'secretKey',
         message: 'input JWT secret key: ',
         default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
-        when: () => answers.auth === 'JWT',
+        when: (answers) => answers.auth === 'JWT',
       },
     ]);
 
