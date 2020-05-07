@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
  * provides an interface for typescript
  */
 export interface User extends mongoose.Document {
+  username: string;
   email: string;
   password: string;
 }
@@ -13,6 +14,11 @@ export interface User extends mongoose.Document {
  */
 const UserSchema = new mongoose.Schema({
   email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  username: {
     type: String,
     required: true,
     unique: true,

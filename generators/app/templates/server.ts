@@ -13,7 +13,7 @@ import userResolver from './graphql/resolvers/userResolver';
 
 dotenv.config();
 
-Mongoose.connect('mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT, {
+Mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`, {
   autoIndex: true,
   poolSize: 50,
   bufferMaxEntries: 0,
