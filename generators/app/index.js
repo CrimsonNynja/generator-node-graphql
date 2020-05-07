@@ -11,51 +11,54 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'projectName',
         message: 'what is the name of your project?',
-        default: 'node-graphql'
+        default: 'node-graphql',
       },
       {
         type: 'list',
         name: 'database',
         message: 'Select the database type: ',
-        choices: [
-          'noSQL'
-        ]
+        choices: ['noSQL'],
       },
       {
         type: 'confirm',
         name: 'defaultDB',
         message: 'database connection will be set to the defaults, is this ok?',
-        default: true
+        default: true,
       },
       {
         type: 'input',
         name: 'DbHost',
         message: 'enter database host name: ',
         default: 'localhost',
-        when: (answers) => answers.defaultDB === false
+        when: (answers) => answers.defaultDB === false,
       },
       {
         type: 'input',
         name: 'DbPort',
         message: 'enter database port: ',
         default: '27017',
-        when: (answers) => answers.defaultDB === false
+        when: (answers) => answers.defaultDB === false,
       },
       {
         type: 'input',
         name: 'DbName',
         message: 'enter database name: ',
         default: 'node-graphql',
-        when: (answers) => answers.defaultDB === false
-      },//need to add username and password as well
+        when: (answers) => answers.defaultDB === false,
+      }, //need to add username and password as well
       {
         type: 'list',
         name: 'auth',
         message: 'Select the auth type: ',
-        choices: [
-          'JWT'
-        ]
-      }
+        choices: ['JWT'],
+      },
+      {
+        type: 'input',
+        name: 'secretKey',
+        message: 'input JWT secret key: ',
+        default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+        when: () => answers.auth === 'JWT',
+      },
     ]);
 
     this.log('this is the new version');
@@ -66,31 +69,30 @@ module.exports = class extends Generator {
     this.log('DbPort', this.questions.DbPort);
     this.log('DbName', this.questions.DbName);
     this.log('auth', this.questions.auth);
+    this.log('secretKey', this.questions.secretKey);
   }
 
   writing() {
     const db = this.questions.database;
     const auth = this.questions.auth;
 
-    const pkg = this.fs.readJSON(this.destinationPath('package.json'),
-      {
-        "scripts": {
-          "dist": "node -r ts-node/register ./src/server.ts",
-          "start:watch": "nodemon",
-          "dev": "nodemon --exec ts-node src/server.ts",
-          "test": "jest --runInBand ./tests",
-          "clear-cache": "jest --clearCache"
+    const pkg = this.fs.readJSON(this.destinationPath('package.json'), {
+      scripts: {
+        dist: 'node -r ts-node/register ./src/server.ts',
+        'start:watch': 'nodemon',
+        dev: 'nodemon --exec ts-node src/server.ts',
+        test: 'jest --runInBand ./tests',
+        'clear-cache': 'jest --clearCache',
+      },
+      jest: {
+        testEnvironment: 'node',
+        transform: {
+          '\\.(gql|graphql)$': 'jest-transform-graphql',
+          '^.+\\.jsx?$': 'babel-jest',
+          '^.+\\.tsx?$': 'ts-jest',
         },
-        "jest": {
-          "testEnvironment": "node",
-          "transform": {
-            "\\.(gql|graphql)$": "jest-transform-graphql",
-            "^.+\\.jsx?$": "babel-jest",
-            "^.+\\.tsx?$": "ts-jest"
-          }
-        },
-      }
-    );
+      },
+    });
 
     this.npmInstall([
       'lodash',
@@ -99,7 +101,7 @@ module.exports = class extends Generator {
       'apollo-server-express',
       'graphql-import-node',
       'merge-graphql-schemas',
-      'dotenv'
+      'dotenv',
     ]);
 
     this.npmInstall([
@@ -119,7 +121,7 @@ module.exports = class extends Generator {
       'easygraphql-tester',
       'jest-transform-graphql',
       '@types/jest',
-      'mongodb-memory-server'
+      'mongodb-memory-server',
     ], { 'save-dev': true });
 
     if (auth === 'JWT') {
@@ -167,23 +169,20 @@ module.exports = class extends Generator {
       this.destinationPath('src/graphql/resolvers/userResolver.ts')
     );
 
-
-      let port = '27017';
-      let host = 'localhost';
-      let name = this.questions.projectName;
+    let port = '27017';
+    let host = 'localhost';
+    let name = this.questions.projectName;
     if (this.questions.defaultDB === false) {
       port = this.questions.DbPort;
       host = this.questions.DbHost;
       name = this.questions.DbName;
     }
-    this.fs.copyTpl(
-      this.templatePath('.env'),
-      this.destinationPath('.env'), {
-        dbHost: host,
-        dbPort: port,
-        dbName: name
-      }
-    );
+    this.fs.copyTpl(this.templatePath('.env'), this.destinationPath('.env'), {
+      dbHost: host,
+      dbPort: port,
+      dbName: name,
+      jwtSecret: this.questions.jwtSecret,
+    });
     //this is noSQL specific
     this.fs.copyTpl(
       this.templatePath('userModel.ts'),

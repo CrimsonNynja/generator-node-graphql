@@ -2,29 +2,29 @@ import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
-import { UserModel } from '../../models/userModel';
+import { UserModel, User } from '../../models/userModel';
 
-dotenv.config()
+dotenv.config();
 
 /**
  * resolver for the user type, this also handles some JWT logic
  */
 const UserResolver = {
   Query: {
-    async loggedInUser (_, args, { user }) {
+    async loggedInUser(_, args, { user }: User) {
       console.log('req id: ' + user);
-
       if (!user) {
-        throw new Error('You are not authenticated!')
+        throw new Error('You are not authenticated!');
       }
       const userModel = await UserModel.findById(user.id);
       return userModel;
     },
   },
   Mutation: {
-    async signup (_, { username, email, password }) {
-      const pass = await bcrypt.hash(password, 10)
+    async signup(_, { username, email, password }: { username: string, email: string, password: string }) {
+      const pass = await bcrypt.hash(password, 10);
       const user = new UserModel({
+        username: username,
         email: email,
         password: pass,
       });
@@ -36,15 +36,15 @@ const UserResolver = {
         { expiresIn: '1y' }
       );
     },
-    async login (_, { email, password }) {
-      const user = await UserModel.findOne({email: email});
+    async login(_, { email, password }: { email: string, password: string }) {
+      const user = await UserModel.findOne({ email: email });
       if (!user) {
         throw new Error('No user with that email');
       }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
-        throw new Error('Incorrect password')
+        throw new Error('Incorrect password');
       }
 
       return jsonwebtoken.sign(
@@ -53,7 +53,7 @@ const UserResolver = {
         { expiresIn: '1d' }
       );
     },
-  }
-}
+  },
+};
 
 export default UserResolver;

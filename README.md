@@ -1,4 +1,5 @@
 # generator-node-graphql [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+
 > generates a node project with graphql
 
 ## Installation
@@ -26,7 +27,6 @@ yo node-graphql
 ## License
 
 MIT © [Hudson Cassidy]()
-
 
 [npm-image]: https://badge.fury.io/js/generator-node-graphql.svg
 [npm-url]: https://npmjs.org/package/generator-node-graphql

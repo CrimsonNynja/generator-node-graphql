@@ -1,10 +1,9 @@
-
 import EasyGraphQLTester from 'easygraphql-tester';
 import { mergeTypes } from 'merge-graphql-schemas';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
-import * as dotenv from 'dotenv'
 
+import * as dotenv from 'dotenv';
 import * as dbHandler from '../dbHandler';
 
 import { UserModel } from '../../src/models/userModel';
@@ -31,7 +30,7 @@ const fillDB = async (num) => {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: await bcrypt.hash(password, 10),
-    })
+    });
     await user.save();
     user.password = password;
     models.push(user);
@@ -49,13 +48,15 @@ test('test signup resolver', async () => {
   tester.test(true, mutation, {
     username: 'username',
     email: 'hudoc96@hotmail.com',
-    password: 'password'
+    password: 'password',
   });
+
   const result = await tester.graphql(mutation, {}, {}, {
-    username: 'username',
-    email: 'hudoc96@hotmail.com',
-    password: 'password'
-  });
+      username: 'username',
+      email: 'hudoc96@hotmail.com',
+      password: 'password',
+    }
+  );
 
   expect(result.data.signup.length).not.toBe(0);
 });
@@ -67,13 +68,17 @@ test('test login resolver', async () => {
       login(email: $email, password: $password)
     }
   `;
+
   tester.test(true, mutation, {
     email: user[0].email,
-    password: user[0].password
+    password: user[0].password,
   });
+
   const result = await tester.graphql(mutation, {}, {}, {
-    email: user[0].email,
-    password: user[0].password
-  });
+      email: user[0].email,
+      password: user[0].password,
+    }
+  );
+
   expect(result.data.login.length).not.toBe(0);
 });
