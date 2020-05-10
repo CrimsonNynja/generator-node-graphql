@@ -181,7 +181,7 @@ module.exports = class extends Generator {
       dbHost: host,
       dbPort: port,
       dbName: name,
-      jwtSecret: this.questions.jwtSecret,
+      jwtSecret: this.questions.secretKey,
     });
     //this is noSQL specific
     this.fs.copyTpl(

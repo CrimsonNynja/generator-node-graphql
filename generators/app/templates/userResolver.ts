@@ -11,7 +11,7 @@ dotenv.config();
  */
 const UserResolver = {
   Query: {
-    async loggedInUser(_, args, { user }: User) {
+    async loggedInUser(_, args, { user }: { user: User }) {
       console.log('req id: ' + user);
       if (!user) {
         throw new Error('You are not authenticated!');
