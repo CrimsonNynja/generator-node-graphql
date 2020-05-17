@@ -1,8 +1,5 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const extend = require('deep-extend');
-const chalk = require('chalk');
-const yosay = require('yosay');
 
 module.exports = class extends Generator {
   async prompting() {
@@ -45,7 +42,7 @@ module.exports = class extends Generator {
         message: 'enter database name: ',
         default: 'node-graphql',
         when: (answers) => answers.defaultDB === false,
-      }, //need to add username and password as well
+      }, // Need to add username and password as well
       {
         type: 'list',
         name: 'auth',
@@ -128,17 +125,17 @@ module.exports = class extends Generator {
       this.npmInstall([
         'jsonwebtoken',
         'express-jwt',
-        'bcrypt'
+        'bcrypt',
       ]);
     }
 
     if (db === 'noSQL') {
       this.npmInstall([
-        'mongoose'
+        'mongoose',
       ]);
       this.npmInstall([
         '@types/mongoose',
-        'mongodb-memory-server'
+        'mongodb-memory-server',
       ], { 'save-dev': true });
     }
 
@@ -177,13 +174,14 @@ module.exports = class extends Generator {
       host = this.questions.DbHost;
       name = this.questions.DbName;
     }
+
     this.fs.copyTpl(this.templatePath('.env'), this.destinationPath('.env'), {
       dbHost: host,
       dbPort: port,
       dbName: name,
       jwtSecret: this.questions.secretKey,
     });
-    //this is noSQL specific
+    // This is noSQL specific
     this.fs.copyTpl(
       this.templatePath('userModel.ts'),
       this.destinationPath('src/models/userModel.ts')
