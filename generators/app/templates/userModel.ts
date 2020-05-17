@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /**
- * provides an interface for typescript
+ * provides the User interface for typescript
  */
 export interface User extends mongoose.Document {
   username: string;
@@ -10,7 +10,7 @@ export interface User extends mongoose.Document {
 }
 
 /**
- * schema that represents the mongoose database models
+ * schema that represents the User database model
  */
 const UserSchema = new mongoose.Schema({
   email: {
