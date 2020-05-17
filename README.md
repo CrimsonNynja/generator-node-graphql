@@ -1,6 +1,8 @@
 # generator-node-graphql
 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[![NPM version][npm-image]][npm-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
+![Node.js CI](https://github.com/CrimsonNynja/generator-node-graphql/workflows/Node.js%20CI/badge.svg)
 
 > generates a node project with graphql
 
