@@ -1,24 +1,31 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "jest": true,
-        "node": true
-    },
-    "extends": [
-        "xo",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
-    ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "plugins": ["@typescript-eslint"],
-    "rules": {}
+  "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+  },
+  "extends": [
+      "eslint:recommended"
+  ],
+  "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+  },
+  "rules": {
+    "object-curly-spacing": 0,
+    "indent": ["error", 2],
+    "arrow-parens": ["error", "always"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "never"
+    }]
+  }
 }
