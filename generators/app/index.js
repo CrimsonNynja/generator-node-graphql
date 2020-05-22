@@ -2,6 +2,11 @@
 const Generator = require('yeoman-generator');
 
 module.exports = class extends Generator {
+  constructor(args, opts) {
+    super(args, opts);
+    this.argument("parentFolder", { type: String, required: false });
+  }
+
   async prompting() {
     this.questions = await this.prompt([
       {
@@ -58,7 +63,6 @@ module.exports = class extends Generator {
       },
     ]);
 
-    this.log('this is the new version');
     this.log('projectName', this.questions.projectName);
     this.log('database', this.questions.database);
     this.log('defaultDB', this.questions.defaultDB);
@@ -70,6 +74,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    console.log('arg: '+this.options.parentFolder);
+    const parentFolder = this.options.parentFolder ? this.options.parentFolder + "/" : "";
+    console.log(parentFolder);
     const db = this.questions.database;
     const auth = this.questions.auth;
 
@@ -139,31 +146,31 @@ module.exports = class extends Generator {
       ], { 'save-dev': true });
     }
 
-    this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+    this.fs.writeJSON(this.destinationPath(parentFolder + 'package.json'), pkg);
 
     this.fs.copyTpl(
       this.templatePath('server.ts'),
-      this.destinationPath('src/server.ts')
+      this.destinationPath(parentFolder + 'src/server.ts')
     );
     this.fs.copyTpl(
       this.templatePath('gitignore'),
-      this.destinationPath('.gitignore')
+      this.destinationPath(parentFolder + '.gitignore')
     );
     this.fs.copyTpl(
       this.templatePath('.eslintrc.json'),
-      this.destinationPath('.eslintrc.json')
+      this.destinationPath(parentFolder + '.eslintrc.json')
     );
     this.fs.copyTpl(
       this.templatePath('tsconfig.json'),
-      this.destinationPath('tsconfig.json')
+      this.destinationPath(parentFolder + 'tsconfig.json')
     );
     this.fs.copyTpl(
       this.templatePath('user.graphql'),
-      this.destinationPath('src/graphql/schemas/user.graphql')
+      this.destinationPath(parentFolder + 'src/graphql/schemas/user.graphql')
     );
     this.fs.copyTpl(
       this.templatePath('userResolver.ts'),
-      this.destinationPath('src/graphql/resolvers/userResolver.ts')
+      this.destinationPath(parentFolder + 'src/graphql/resolvers/userResolver.ts')
     );
 
     let port = '27017';
@@ -175,7 +182,7 @@ module.exports = class extends Generator {
       name = this.questions.DbName;
     }
 
-    this.fs.copyTpl(this.templatePath('.env'), this.destinationPath('.env'), {
+    this.fs.copyTpl(this.templatePath('.env'), this.destinationPath(parentFolder + '.env'), {
       dbHost: host,
       dbPort: port,
       dbName: name,
@@ -184,16 +191,16 @@ module.exports = class extends Generator {
     // This is noSQL specific
     this.fs.copyTpl(
       this.templatePath('userModel.ts'),
-      this.destinationPath('src/models/userModel.ts')
+      this.destinationPath(parentFolder + 'src/models/userModel.ts')
     );
 
     this.fs.copyTpl(
       this.templatePath('dbHandler.ts'),
-      this.destinationPath('tests/dbHandler.ts')
+      this.destinationPath(parentFolder + 'tests/dbHandler.ts')
     );
     this.fs.copyTpl(
       this.templatePath('userResolver.test.ts'),
-      this.destinationPath('tests/resolvers/userResolver.test.ts')
+      this.destinationPath(parentFolder + 'tests/resolvers/userResolver.test.ts')
     );
   }
 
