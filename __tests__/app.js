@@ -30,3 +30,34 @@ describe('generator-node-graphql:app', () => {
     ]);
   });
 });
+
+describe('generator-node-graphql:app commandLine', () => {
+  beforeAll(() => {
+    return helpers
+      .run(path.join(__dirname, '../generators/app'))
+      .withArguments(['testDir'])
+      .withPrompts({
+        projectName: 'test',
+        database: 'noSQL',
+        defaultDB: true,
+        auth: 'JWT',
+        secretKey: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+      });
+  });
+
+  it('creates files in the given directory', () => {
+    const dir = 'testDir/';
+    assert.file([
+      dir + '.env',
+      dir + '.gitignore',
+      dir + '.eslintrc.json',
+      dir + 'tsconfig.json',
+      dir + 'src/server.ts',
+      dir + 'src/models/userModel.ts',
+      dir + 'src/graphql/schemas/user.graphql',
+      dir + 'src/graphql/resolvers/userResolver.ts',
+      dir + 'tests/dbHandler.ts',
+      dir + 'tests/resolvers/userResolver.test.ts',
+    ]);
+  });
+});
