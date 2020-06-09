@@ -87,6 +87,7 @@ module.exports = class extends Generator {
         dev: 'nodemon --exec ts-node src/server.ts',
         test: 'jest --runInBand ./tests',
         'clear-cache': 'jest --clearCache',
+        coverage: 'jest --coverage',
       },
       jest: {
         testEnvironment: 'node',
@@ -95,6 +96,10 @@ module.exports = class extends Generator {
           '^.+\\.jsx?$': 'babel-jest',
           '^.+\\.tsx?$': 'ts-jest',
         },
+        collectCoverageFrom: [
+          "src/**/*.{ts,js}",
+          "!src/server.ts",
+        ],
       },
     });
 
