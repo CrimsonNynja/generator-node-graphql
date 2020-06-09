@@ -43,7 +43,7 @@ npm run coverage
 
 ### Source Code
 
-The source code uses [apollo-server-express](APOLLO-EXPRESS) along with [express](EXPRESS) for graphql and the server, with the [jsonwebtoken](JWT) package to handle JWTs. It also uses [lodash](LODASH), [merge-graphql-schemas](MERGE-GRAPHQL) and [graphql-import-node](GRAPHQL-IMPORT) for ease of use, as well as [dotenv](DOTENV) for its environment files.
+The source code uses [apollo-server-express][APOLLO-EXPRESS] along with [express](EXPRESS) for graphql and the server, with the [jsonwebtoken](JWT) package to handle JWTs. It also uses [lodash](LODASH), [merge-graphql-schemas](MERGE-GRAPHQL) and [graphql-import-node](GRAPHQL-IMPORT) for ease of use, as well as [dotenv](DOTENV) for its environment files.
 
 The server can be run with nodemon by:
 
