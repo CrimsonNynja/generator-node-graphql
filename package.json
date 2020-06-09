@@ -1,7 +1,7 @@
 {
     "name": "generator-node-graphql",
     "repository": "CrimsonNynja/generator-node-graphql",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Generates a node project with graphql, mongoose and JWT auth",
     "license": "MIT",
     "homepage": "https://github.com/CrimsonNynja/generator-node-graphql",
