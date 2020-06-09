@@ -17,11 +17,15 @@
         }
     ],
     "keywords": [
+        "js",
         "yeoman-generator",
+        "yeoman",
         "scaffolding",
         "graphql",
         "JWT",
-        "node"
+        "node",
+        "mongoose",
+        "express"
     ],
     "scripts": {
         "pretest": "eslint .",
