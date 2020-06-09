@@ -27,7 +27,7 @@ If all default options are entered, the code generated should include a few runn
 
 ### Tests
 
-The generated tests are written using [Jest](JEST) and provide an in memory database using [mongodb-memory-server](MONGO-MEMORY), as well as means to test any graphql resolvers and schema validations using [easygraphql-tester](EASY-GRAPHQL).
+The generated tests are written using [Jest](https://jestjs.io/) and provide an in memory database using [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server), as well as means to test any graphql resolvers and schema validations using [easygraphql-tester](https://github.com/EasyGraphQL/easygraphql-tester).
 
 The tests can be run as soon as the code is generated with:
 
@@ -43,7 +43,7 @@ npm run coverage
 
 ### Source Code
 
-The source code uses [apollo-server-express][APOLLO-EXPRESS] along with [express](EXPRESS) for graphql and the server, with the [jsonwebtoken](JWT) package to handle JWTs. It also uses [lodash](LODASH), [merge-graphql-schemas](MERGE-GRAPHQL) and [graphql-import-node](GRAPHQL-IMPORT) for ease of use, as well as [dotenv](DOTENV) for its environment files.
+The source code uses [apollo-server-express](https://github.com/apollographql/apollo-server) along with [express](https://expressjs.com/) for graphql and the server, with the [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) package to handle JWTs. It also uses [lodash](https://lodash.com/), [merge-graphql-schemas](https://github.com/Urigo/merge-graphql-schemas) and [graphql-import-node](https://github.com/ardatan/graphql-import-node) for ease of use, as well as [dotenv](https://github.com/motdotla/dotenv) for its environment files.
 
 The server can be run with nodemon by:
 
@@ -53,7 +53,7 @@ npm run dev
 
 ### Database
 
-By default the chosen database is noSQL, which uses the [mongoose](MONGOOSE) package (keep in mind noSQL is currently the only option you can use). While the tests can run fine without any setup here, to properly run the server an instance of [mongoDB](MONGODB) should be created for the system to connect to. Please check the `.env` file and place your database credentials there.
+By default the chosen database is noSQL, which uses the [mongoose](https://mongoosejs.com/) package (keep in mind noSQL is currently the only option you can use). While the tests can run fine without any setup here, to properly run the server an instance of [mongoDB](https://www.mongodb.com/) should be created for the system to connect to. Please check the `.env` file and place your database credentials there.
 
 ### What the code can do
 
@@ -115,16 +115,3 @@ MIT © [Hudson Cassidy]()
 [npm-url]: https://npmjs.org/package/generator-node-graphql
 [daviddm-image]: https://david-dm.org/CrimsonNynja/generator-node-graphql.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/CrimsonNynja/generator-node-graphql
-
-[JEST]: https://jestjs.io/
-[MONGO-MEMORY]: https://github.com/nodkz/mongodb-memory-server
-[EASY-GRAPHQL]: https://github.com/EasyGraphQL/easygraphql-tester
-[APOLLO-EXPRESS]: (https://github.com/apollographql/apollo-server)
-[EXPRESS]: https://expressjs.com/
-[JWT]: https://github.com/auth0/node-jsonwebtoken
-[LODASH]: https://lodash.com/
-[MERGE-GRAPHQL]: https://github.com/Urigo/merge-graphql-schemas
-[GRAPHQL-IMPORT]: https://github.com/ardatan/graphql-import-node
-[DOTENV]: https://github.com/motdotla/dotenv
-[MONGOOSE]: https://mongoosejs.com/
-[MONGODB]: https://www.mongodb.com/
