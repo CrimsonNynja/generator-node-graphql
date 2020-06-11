@@ -2,9 +2,8 @@ import 'graphql-import-node';
 import Mongoose from 'mongoose';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import * as Lodash from 'lodash';
 import { makeExecutableSchema } from 'apollo-server';
-import { mergeTypes } from 'merge-graphql-schemas';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import * as dotenv from 'dotenv';
 import jsonwebtoken from 'jsonwebtoken';
 
@@ -24,11 +23,12 @@ Mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`, {
   dbName: process.env.DB_NAME,
 });
 
-const types = mergeTypes([user], { all: true });
+const types = mergeTypeDefs([user]);
+const resolvers = mergeResolvers([userResolver]);
 
 const schema = makeExecutableSchema({
   typeDefs: types,
-  resolvers: Lodash.merge(userResolver),
+  resolvers: resolvers,
 });
 
 const server = new ApolloServer({

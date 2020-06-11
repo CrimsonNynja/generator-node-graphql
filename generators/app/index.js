@@ -74,9 +74,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    console.log('arg: '+this.options.parentFolder);
     const parentFolder = this.options.parentFolder ? this.options.parentFolder + "/" : "";
-    console.log(parentFolder);
     const db = this.questions.database;
     const auth = this.questions.auth;
 
@@ -104,19 +102,17 @@ module.exports = class extends Generator {
     });
 
     this.npmInstall([
-      'lodash',
       'express',
       'apollo-server',
       'apollo-server-express',
       'graphql-import-node',
-      'merge-graphql-schemas',
+      '@graphql-tools/merge',
       'dotenv',
     ]);
 
     this.npmInstall([
       '@types/express',
       '@types/node',
-      '@types/lodash',
       'eslint',
       'eslint-plugin-import',
       'nodemon',
