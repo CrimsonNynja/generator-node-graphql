@@ -74,11 +74,22 @@ test('test login resolver', async () => {
     password: user[0].password,
   });
 
-  const result = await tester.graphql(mutation, {}, {}, {
-      email: user[0].email,
-      password: user[0].password,
-    }
-  );
+  let result = await tester.graphql(mutation, {}, {}, {
+    email: user[0].email,
+    password: user[0].password,
+  });
 
   expect(result.data.login.length).not.toBe(0);
+
+  result = await tester.graphql(mutation, {}, {}, {
+    email: user[0].email,
+    password: 'fake',
+  });
+  expect(result.errors[0].message).toBe("Incorrect log in details");
+
+  result = await tester.graphql(mutation, {}, {}, {
+    email: 'fake',
+    password: 'fake',
+  });
+  expect(result.errors[0].message).toBe("No user with that email");
 });
