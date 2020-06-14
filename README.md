@@ -3,6 +3,8 @@
 [![NPM version][npm-image]][npm-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 ![Node.js CI](https://github.com/CrimsonNynja/generator-node-graphql/workflows/Node.js%20CI/badge.svg)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/CrimsonNynja/generator-node-graphql.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CrimsonNynja/generator-node-graphql/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/CrimsonNynja/generator-node-graphql.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CrimsonNynja/generator-node-graphql/context:javascript)
 
 > generates a node project with graphql and JWT
 
