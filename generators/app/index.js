@@ -189,6 +189,11 @@ module.exports = class extends Generator {
       dbName: name,
       jwtSecret: this.questions.secretKey,
     });
+
+    this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath(parentFolder + 'README.md'), {
+      projectName: this.questions.projectName,
+    });
+
     // This is noSQL specific
     this.fs.copyTpl(
       this.templatePath('userModel.ts'),
