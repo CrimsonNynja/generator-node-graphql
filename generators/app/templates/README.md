@@ -5,31 +5,31 @@
 Start the dev server (nodemon) with
 
 ```bash
-npm run dist
+<%= pkm %> dist
 ```
 
 start a prod server (standard node) with
 
 ```bash
-npm run dev
+<%= pkm %> dev
 ```
 
 Run tests with
 
 ```bash
-npm run test
+<%= pkm %> test
 ```
 
 Get coverage report with
 
 ```bash
-npm run coverage
+<%= pkm %> coverage
 ```
 
 clear the jest cache
 
 ```bash
-npm run clear-cache
+<%= pkm %> clear-cache
 ```
 
 `This project was bootstrapped with https://www.npmjs.com/package/generator-node-graphql`

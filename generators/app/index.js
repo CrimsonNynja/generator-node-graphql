@@ -64,7 +64,7 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'packageManager',
-        message: 'which package manager do you wish to use?',
+        message: 'which package manager do you want to use?',
         choices: ['npm', 'yarn'],
       },
     ]);
@@ -206,8 +206,13 @@ module.exports = class extends Generator {
       jwtSecret: this.questions.secretKey,
     });
 
+    let pkm = 'npm run';
+    if (this.questions.packageManager) {
+      pkm = 'yarn';
+    }
     this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath(parentFolder + 'README.md'), {
       projectName: this.questions.projectName,
+      pkm: pkm,
     });
 
     // This is noSQL specific
