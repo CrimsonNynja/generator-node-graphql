@@ -61,6 +61,12 @@ module.exports = class extends Generator {
         default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
         when: (answers) => answers.auth === 'JWT',
       },
+      {
+        type: 'list',
+        name: 'packageManager',
+        message: 'which package manager do you wish to use?',
+        choices: ['npm', 'yarn'],
+      },
     ]);
 
     this.log('projectName', this.questions.projectName);
@@ -71,9 +77,19 @@ module.exports = class extends Generator {
     this.log('DbName', this.questions.DbName);
     this.log('auth', this.questions.auth);
     this.log('secretKey', this.questions.secretKey);
+    this.log('packageManager', this.questions.packageManager);
   }
 
   writing() {
+    const install = (packages, options) => {
+      if (this.options.packageManager === 'npm') {
+        this.npmInstall(packages, options);
+      }
+      if (this.options.packageManager === 'yarn') {
+        this.yarnInstall(packages, options);
+      }
+    };
+
     const parentFolder = this.options.parentFolder ? this.options.parentFolder + "/" : "";
     const db = this.questions.database;
     const auth = this.questions.auth;
@@ -101,7 +117,7 @@ module.exports = class extends Generator {
       },
     });
 
-    this.npmInstall([
+    install([
       'express',
       'apollo-server',
       'apollo-server-express',
@@ -110,7 +126,7 @@ module.exports = class extends Generator {
       'dotenv',
     ]);
 
-    this.npmInstall([
+    install([
       '@types/express',
       '@types/node',
       'eslint',
@@ -130,7 +146,7 @@ module.exports = class extends Generator {
     ], { 'save-dev': true });
 
     if (auth === 'JWT') {
-      this.npmInstall([
+      install([
         'jsonwebtoken',
         'express-jwt',
         'bcrypt',
@@ -138,10 +154,10 @@ module.exports = class extends Generator {
     }
 
     if (db === 'noSQL') {
-      this.npmInstall([
+      install([
         'mongoose',
       ]);
-      this.npmInstall([
+      install([
         '@types/mongoose',
         'mongodb-memory-server',
       ], { 'save-dev': true });
@@ -211,6 +227,20 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.installDependencies({ bower: false });
+    if (this.options.packageManager === 'npm') {
+      this.installDependencies({
+        npm: true,
+        yarn: false,
+        bower: false,
+      });
+    }
+
+    if (this.options.packageManager === 'yarn') {
+      this.installDependencies({
+        yarn: true,
+        npm: false,
+        bower: false,
+      });
+    }
   }
 };
