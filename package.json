@@ -29,6 +29,11 @@
         "mongoose",
         "express"
     ],
+    "scripts": {
+      "pretest": "eslint .",
+      "test": "jest --testPathIgnorePatterns=generators/app/templates",
+      "generator": "yo node-graphql"
+  },
     "jest": {
         "testEnvironment": "node"
     },
