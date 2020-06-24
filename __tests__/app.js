@@ -12,6 +12,7 @@ describe('generator-node-graphql:app', () => {
         defaultDB: true,
         auth: 'JWT',
         secretKey: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+        packageManager: 'npm',
       });
   });
 
