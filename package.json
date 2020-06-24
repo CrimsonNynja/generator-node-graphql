@@ -30,10 +30,10 @@
         "express"
     ],
     "scripts": {
-      "pretest": "eslint .",
-      "test": "jest --testPathIgnorePatterns=generators/app/templates",
-      "generator": "yo node-graphql"
-  },
+        "pretest": "eslint .",
+        "test": "jest --testPathIgnorePatterns=generators/app/templates",
+        "generator": "yo node-graphql"
+    },
     "jest": {
         "testEnvironment": "node"
     },
