@@ -82,10 +82,10 @@ module.exports = class extends Generator {
 
   writing() {
     const install = (packages, options) => {
-      if (this.options.packageManager === 'npm') {
+      if (this.questions.packageManager === 'npm') {
         this.npmInstall(packages, options);
       }
-      if (this.options.packageManager === 'yarn') {
+      if (this.questions.packageManager === 'yarn') {
         this.yarnInstall(packages, options);
       }
     };
@@ -232,7 +232,12 @@ module.exports = class extends Generator {
   }
 
   install() {
-    if (this.options.packageManager === 'npm') {
+    if (this.options.parentFolder) {
+      var dir = process.cwd() + '/' + this.options.parentFolder;
+      process.chdir(dir);
+    }
+
+    if (this.questions.packageManager === 'npm') {
       this.installDependencies({
         npm: true,
         yarn: false,
@@ -240,7 +245,7 @@ module.exports = class extends Generator {
       });
     }
 
-    if (this.options.packageManager === 'yarn') {
+    if (this.questions.packageManager === 'yarn') {
       this.installDependencies({
         yarn: true,
         npm: false,
