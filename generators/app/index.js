@@ -5,79 +5,90 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.argument("parentFolder", { type: String, required: false });
+    this.option("default");
   }
 
   async prompting() {
-    this.questions = await this.prompt([
-      {
-        type: 'input',
-        name: 'projectName',
-        message: 'what is the name of your project?',
-        default: 'node-graphql',
-      },
-      {
-        type: 'list',
-        name: 'database',
-        message: 'Select the database type: ',
-        choices: ['noSQL'],
-      },
-      {
-        type: 'confirm',
-        name: 'defaultDB',
-        message: 'database connection will be set to the defaults, is this ok?',
-        default: true,
-      },
-      {
-        type: 'input',
-        name: 'DbHost',
-        message: 'enter database host name: ',
-        default: 'localhost',
-        when: (answers) => answers.defaultDB === false,
-      },
-      {
-        type: 'input',
-        name: 'DbPort',
-        message: 'enter database port: ',
-        default: '27017',
-        when: (answers) => answers.defaultDB === false,
-      },
-      {
-        type: 'input',
-        name: 'DbName',
-        message: 'enter database name: ',
-        default: 'node-graphql',
-        when: (answers) => answers.defaultDB === false,
-      }, // Need to add username and password as well
-      {
-        type: 'list',
-        name: 'auth',
-        message: 'Select the auth type: ',
-        choices: ['JWT'],
-      },
-      {
-        type: 'input',
-        name: 'secretKey',
-        message: 'input JWT secret key: ',
-        default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
-        when: (answers) => answers.auth === 'JWT',
-      },
-      {
-        type: 'list',
-        name: 'packageManager',
-        message: 'which package manager do you want to use?',
-        choices: ['npm', 'yarn'],
-      },
-    ]);
+    if (!this.options.default) {
+      this.questions = await this.prompt([
+        {
+          type: 'input',
+          name: 'projectName',
+          message: 'what is the name of your project?',
+          default: 'node-graphql',
+        },
+        {
+          type: 'list',
+          name: 'database',
+          message: 'Select the database type: ',
+          choices: ['noSQL'],
+        },
+        {
+          type: 'confirm',
+          name: 'defaultDB',
+          message: 'database connection will be set to the defaults, is this ok?',
+          default: true,
+        },
+        {
+          type: 'input',
+          name: 'DbHost',
+          message: 'enter database host name: ',
+          default: 'localhost',
+          when: (answers) => answers.defaultDB === false,
+        },
+        {
+          type: 'input',
+          name: 'DbPort',
+          message: 'enter database port: ',
+          default: '27017',
+          when: (answers) => answers.defaultDB === false,
+        },
+        {
+          type: 'input',
+          name: 'DbName',
+          message: 'enter database name: ',
+          default: 'node-graphql',
+          when: (answers) => answers.defaultDB === false,
+        }, // Need to add username and password as well
+        {
+          type: 'list',
+          name: 'auth',
+          message: 'Select the auth type: ',
+          choices: ['JWT'],
+        },
+        {
+          type: 'input',
+          name: 'secretKey',
+          message: 'input JWT secret key: ',
+          default: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+          when: (answers) => answers.auth === 'JWT',
+        },
+        {
+          type: 'list',
+          name: 'packageManager',
+          message: 'which package manager do you want to use?',
+          choices: ['npm', 'yarn'],
+        },
+      ]);
 
-    this.log('projectName', this.questions.projectName);
-    this.log('database', this.questions.database);
-    this.log('defaultDB', this.questions.defaultDB);
-    this.log('DbHost', this.questions.DbHost);
-    this.log('DbPort', this.questions.DbPort);
-    this.log('DbName', this.questions.DbName);
-    this.log('auth', this.questions.auth);
-    this.log('secretKey', this.questions.secretKey);
-    this.log('packageManager', this.questions.packageManager);
+      this.log('projectName', this.questions.projectName);
+      this.log('database', this.questions.database);
+      this.log('defaultDB', this.questions.defaultDB);
+      this.log('DbHost', this.questions.DbHost);
+      this.log('DbPort', this.questions.DbPort);
+      this.log('DbName', this.questions.DbName);
+      this.log('auth', this.questions.auth);
+      this.log('secretKey', this.questions.secretKey);
+      this.log('packageManager', this.questions.packageManager);
+    } else {
+      this.questions = {};
+      this.questions.projectName = 'node-graphql';
+      this.questions.database = 'noSQL';
+      this.questions.defaultDB = true;
+      this.questions.auth = 'JWT';
+      this.questions.secretKey = 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm';
+      this.questions.packageManager = 'yarn';
+    }
   }
 
   writing() {
