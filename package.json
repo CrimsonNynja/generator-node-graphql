@@ -5,6 +5,9 @@
     "description": "Generates a node project with graphql, mongoose and JWT auth",
     "license": "MIT",
     "homepage": "https://github.com/CrimsonNynja/generator-node-graphql",
+    "publishConfig": {
+      "registry": "https://npm.pkg.github.com/"
+    },
     "author": {
         "name": "Hudson Cassidy",
         "email": "hudoc96@hotmail.com",
