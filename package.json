@@ -1,13 +1,13 @@
 {
     "name": "generator-node-graphql",
-    "repository": "CrimsonNynja/generator-node-graphql",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/CrimsonNynja/generator-node-graphql.git"
+    },
     "version": "1.3.0",
     "description": "Generates a node project with graphql, mongoose and JWT auth",
     "license": "MIT",
     "homepage": "https://github.com/CrimsonNynja/generator-node-graphql",
-    "publishConfig": {
-      "registry": "https://npm.pkg.github.com/"
-    },
     "author": {
         "name": "Hudson Cassidy",
         "email": "hudoc96@hotmail.com",
