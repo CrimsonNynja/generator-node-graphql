@@ -70,16 +70,6 @@ module.exports = class extends Generator {
           choices: ['npm', 'yarn'],
         },
       ]);
-
-      this.log('projectName', this.questions.projectName);
-      this.log('database', this.questions.database);
-      this.log('defaultDB', this.questions.defaultDB);
-      this.log('DbHost', this.questions.DbHost);
-      this.log('DbPort', this.questions.DbPort);
-      this.log('DbName', this.questions.DbName);
-      this.log('auth', this.questions.auth);
-      this.log('secretKey', this.questions.secretKey);
-      this.log('packageManager', this.questions.packageManager);
     } else {
       this.questions = {};
       this.questions.projectName = 'node-graphql';
@@ -201,29 +191,16 @@ module.exports = class extends Generator {
       this.destinationPath(parentFolder + 'src/graphql/resolvers/userResolver.ts')
     );
 
-    let port = '27017';
-    let host = 'localhost';
-    let name = this.questions.projectName;
-    if (this.questions.defaultDB === false) {
-      port = this.questions.DbPort;
-      host = this.questions.DbHost;
-      name = this.questions.DbName;
-    }
-
     this.fs.copyTpl(this.templatePath('.env'), this.destinationPath(parentFolder + '.env'), {
-      dbHost: host,
-      dbPort: port,
-      dbName: name,
+      dbHost: this.questions.defaultDB ? 'localhost' : this.questions.DbHost,
+      dbPort: this.questions.defaultDB ? '27017' : this.questions.DbPort,
+      dbName: this.questions.defaultDB ? this.questions.projectName : this.questions.DbName,
       jwtSecret: this.questions.secretKey,
     });
 
-    let pkm = 'npm run';
-    if (this.questions.packageManager) {
-      pkm = 'yarn';
-    }
     this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath(parentFolder + 'README.md'), {
       projectName: this.questions.projectName,
-      pkm: pkm,
+      pkm: this.questions.packageManager ? 'yarn' : 'npm run',
     });
 
     // This is noSQL specific
