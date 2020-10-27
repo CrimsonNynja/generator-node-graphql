@@ -46,6 +46,8 @@ describe('generator-node-graphql:app commandLine', () => {
         defaultDB: true,
         auth: 'JWT',
         secretKey: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+        packageManager: 'npm',
+        type: 'typescript',
       });
   });
 
@@ -71,7 +73,7 @@ describe('generator-node-graphql:app commandLine defaults', () => {
   beforeAll(() => {
     return helpers
       .run(path.join(__dirname, '../generators/app'))
-      .withOptions(['default']);
+      .withOptions({ default: true });
   });
 
   it('creates files in the given directory', () => {
@@ -103,6 +105,7 @@ describe('generator-node-graphql:app javascript', () => {
         defaultDB: true,
         auth: 'JWT',
         secretKey: 'hwWxD5cB6LtaCB0GOcbaxiOI2eaFoC4rIT9jh51DCdB6p9IZrHTMRuFUM72xIjm',
+        packageManager: 'npm',
         type: 'javascript',
       });
   });
