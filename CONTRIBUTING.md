@@ -8,4 +8,4 @@ This project aims to generate readable, un-opinionated code, which uses best pra
 
 Feel free to create an issue for bugs, or feature requests.
 
-If you wish to contribute, please check the guit issues, there are lots of plan for new addition, or submit your own
+If you wish to contribute, please check the git issues, there are lots of plans for new additions, or submit your own
