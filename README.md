@@ -23,6 +23,18 @@ Then generate your new project:
 yo node-graphql
 ```
 
+You can also pass in some arguments or options as well
+
+```bash
+yo node-graphql --default
+# Will generate a project with all question reverting to their default values, this will not prompt for any questions
+```
+
+```bash
+yo node-graphql dog
+# Will take the given string an use it as a parent folder name to place all code into, in this case, 'dog'
+```
+
 ## Generated code
 
 If all default options are entered, the code generated should include a few runnable tests, as well as a runnable server.
