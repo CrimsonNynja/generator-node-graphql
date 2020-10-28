@@ -1,5 +1,5 @@
+import { mergeTypeDefs } from '@graphql-tools/merge';
 import EasyGraphQLTester from 'easygraphql-tester';
-import { mergeTypes } from 'merge-graphql-schemas';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
 
@@ -12,7 +12,7 @@ import userResolver from '../../src/graphql/resolvers/userResolver';
 
 dotenv.config();
 
-const schema = mergeTypes([user], { all: true });
+const schema = mergeTypeDefs([user], { all: true });
 
 let tester = null;
 beforeAll(async () => {
