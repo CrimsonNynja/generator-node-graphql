@@ -12,7 +12,7 @@ import userResolver from '../../src/graphql/resolvers/userResolver.js';
 
 dotenv.config();
 
-const schema = mergeTypeDefs([user], { all: true });
+const schema = mergeTypeDefs([user], { useSchemaDefinition: true, forceSchemaDefinition: true });
 
 let tester = null;
 beforeAll(async () => {
