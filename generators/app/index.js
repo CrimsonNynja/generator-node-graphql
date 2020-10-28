@@ -143,6 +143,7 @@ module.exports = class extends Generator {
       'express',
       'apollo-server',
       'apollo-server-express',
+      'graphql',
       'graphql-import-node',
       '@graphql-tools/merge',
       'dotenv',
