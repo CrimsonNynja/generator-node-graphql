@@ -137,6 +137,9 @@ module.exports = class extends Generator {
           "!src/server" + fileExtension,
         ],
       },
+      resolutions: {
+        graphql: '14.5.8'
+      },
     });
 
     install([
