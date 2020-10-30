@@ -138,7 +138,7 @@ module.exports = class extends Generator {
         ],
       },
       resolutions: {
-        graphql: '14.5.8'
+        graphql: '14.5.8',
       },
     });
 
