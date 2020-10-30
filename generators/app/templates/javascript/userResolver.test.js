@@ -2,7 +2,6 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import EasyGraphQLTester from 'easygraphql-tester';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
 
 import dotenv from 'dotenv';
 import * as dbHandler from '../dbHandler';
@@ -95,7 +94,8 @@ test('test login resolver', async () => {
   expect(result.errors[0].message).toBe("No user with that email");
 });
 
-test('test loggedInUser resolver', async () => {
+describe('loggedInUser resolver', () => {
+  let users
   const query = `
     query TEST {
       loggedInUser {
@@ -104,9 +104,20 @@ test('test loggedInUser resolver', async () => {
     }
   `;
 
-  let result = await tester.graphql(query, undefined, {});
-  expect(result.errors[0].message).toBe("You are not authenticated!");
+  beforeEach(async () => {
+    users = await fillDB(1);
+  });
 
-  result = await tester.graphql(query, undefined, { user: { id: mongoose.Types.ObjectId() } });
-  expect(result.errors).toBe(undefined);
+  test('test for non auth user', async () => {
+    const result = await tester.graphql(query, undefined, {});
+    expect(result.errors[0].message).toBe("You are not authenticated!");
+  });
+
+  test('test for auth user', async () => {
+    const result = await tester.graphql(query, undefined, { user: users[0] });
+
+    expect(result.errors).toBe(undefined);
+    expect(result.data.loggedInUser).not.toBe(undefined);
+    expect(result.data.loggedInUser.id.toString()).toEqual(users[0].id.toString());
+  });
 });
