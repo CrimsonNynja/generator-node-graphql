@@ -2,6 +2,7 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import EasyGraphQLTester from 'easygraphql-tester';
 import faker from 'faker';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 import dotenv from 'dotenv';
 import * as dbHandler from '../dbHandler';
@@ -92,4 +93,20 @@ test('test login resolver', async () => {
     password: 'fake',
   });
   expect(result.errors[0].message).toBe("No user with that email");
+});
+
+test('test loggedInUser resolver', async () => {
+  const query = `
+    query TEST {
+      loggedInUser {
+        id
+      }
+    }
+  `;
+
+  let result = await tester.graphql(query, undefined, {});
+  expect(result.errors[0].message).toBe("You are not authenticated!");
+
+  result = await tester.graphql(query, undefined, { user: { id: mongoose.Types.ObjectId() } });
+  expect(result.errors).toBe(undefined);
 });
