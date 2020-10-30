@@ -140,6 +140,7 @@ module.exports = class extends Generator {
       resolutions: {
         graphql: '^15.3.0',
       },
+      license: "MIT",
     });
 
     install([
