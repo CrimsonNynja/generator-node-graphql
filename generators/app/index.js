@@ -137,13 +137,18 @@ module.exports = class extends Generator {
           "!src/server" + fileExtension,
         ],
       },
+      resolutions: {
+        graphql: '^15.3.0',
+      },
     });
 
     install([
       'express',
       'apollo-server',
       'apollo-server-express',
+      'graphql@^15.3.0',
       'graphql-import-node',
+      'graphql-tag',
       '@graphql-tools/merge',
       'dotenv',
     ]);
