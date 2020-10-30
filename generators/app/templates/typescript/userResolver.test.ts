@@ -22,7 +22,7 @@ beforeAll(async () => {
 afterEach(async () => dbHandler.clearDatabase());
 afterAll(async () => dbHandler.closeDatabase());
 
-const fillDB = async (num) => {
+const fillDB = async (num: number) => {
   const models = [];
   for (let i = 0; i < num; i += 1) {
     const password = faker.internet.password();
@@ -92,4 +92,32 @@ test('test login resolver', async () => {
     password: 'fake',
   });
   expect(result.errors[0].message).toBe("No user with that email");
+});
+
+describe('loggedInUser resolver', () => {
+  let users
+  const query = `
+    query TEST {
+      loggedInUser {
+        id
+      }
+    }
+  `;
+
+  beforeEach(async () => {
+    users = await fillDB(1);
+  });
+
+  test('test for non auth user', async () => {
+    const result = await tester.graphql(query, undefined, {});
+    expect(result.errors[0].message).toBe("You are not authenticated!");
+  });
+
+  test('test for auth user', async () => {
+    const result = await tester.graphql(query, undefined, { user: users[0] });
+
+    expect(result.errors).toBe(undefined);
+    expect(result.data.loggedInUser).not.toBe(undefined);
+    expect(result.data.loggedInUser.id.toString()).toEqual(users[0].id.toString());
+  });
 });
