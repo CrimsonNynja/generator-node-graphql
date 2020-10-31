@@ -4,7 +4,7 @@
         "type": "git",
         "url": "https://github.com/CrimsonNynja/generator-node-graphql.git"
     },
-    "version": "1.3.0",
+    "version": "2.0.0",
     "description": "Generates a node project with graphql, mongoose and JWT auth",
     "license": "MIT",
     "homepage": "https://github.com/CrimsonNynja/generator-node-graphql",
