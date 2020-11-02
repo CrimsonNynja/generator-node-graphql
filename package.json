@@ -1,5 +1,5 @@
 {
-    "name": "generator-node-graphql",
+    "name": "@CrimsonNynja/generator-node-graphql",
     "repository": {
         "type": "git",
         "url": "https://github.com/CrimsonNynja/generator-node-graphql.git"
@@ -12,6 +12,9 @@
         "name": "Hudson Cassidy",
         "email": "hudoc96@hotmail.com",
         "url": "https://github.com/CrimsonNynja"
+    },
+    "publishConfig": {
+      "registry": "https://npm.pkg.github.com/CrimsonNynja/"
     },
     "contributors": [
         {
