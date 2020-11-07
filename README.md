@@ -115,12 +115,6 @@ query {
 
 And when run, we should get information about the user we logged into / created earlier.
 
-### Directory Structure
-
-The generated directory should look like this:
-
-![directory structure](https://user-images.githubusercontent.com/7157784/83977198-011f8500-a942-11ea-9cf7-81de61aa74ab.png)
-
 ## License
 
 MIT © [Hudson Cassidy]()

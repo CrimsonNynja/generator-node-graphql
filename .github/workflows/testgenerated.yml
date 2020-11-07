@@ -30,5 +30,6 @@ jobs:
         npm link
         mkdir project
         cd project
-        yo node-graphql --default
+        yo --generators
+        yo @CrimsonNynja/node-graphql --default
         yarn test
