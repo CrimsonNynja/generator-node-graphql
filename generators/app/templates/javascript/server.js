@@ -7,7 +7,7 @@ import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import dotenv from 'dotenv';
 import jsonwebtoken from 'jsonwebtoken';
 
-import user from './graphql/schemas/user.graphql.js';
+import user from './graphql/schemas/user.graphql';
 import userResolver from './graphql/resolvers/userResolver.js';
 
 dotenv.config();

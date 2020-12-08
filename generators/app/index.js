@@ -122,9 +122,9 @@ module.exports = class extends Generator {
     const pkg = this.fs.readJSON(this.destinationPath('package.json'), {
       ...module,
       scripts: {
-        dist: 'node -r ts-node/register ./src/server.ts',
+        dist: 'node -r ts-node/register ./src/server' + fileExtension,
         'start:watch': 'nodemon',
-        dev: 'nodemon --exec ts-node src/server.ts',
+        dev: 'nodemon --exec ts-node src/server' + fileExtension,
         test: jestScript,
         'clear-cache': 'jest --clearCache',
         coverage: 'jest --coverage',
