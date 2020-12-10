@@ -56,9 +56,6 @@ const app = express();
 server.applyMiddleware({ app });
 
 const port = 3000;
-app.listen(port, (err) => {
-  if (err) {
-    console.log(err);
-  }
+app.listen(port, () => {
   console.log('server is running on: ' + port);
 });
