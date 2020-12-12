@@ -5,7 +5,7 @@ const helpers = require('yeoman-test');
 describe('generator-node-graphql:app', () => {
   beforeAll(() => {
     return helpers
-      .run(path.join(__dirname, '../generators/app'))
+      .run(path.join(__dirname, '../app'))
       .withPrompts({
         projectName: 'test',
         database: 'noSQL',
@@ -38,7 +38,7 @@ describe('generator-node-graphql:app', () => {
 describe('generator-node-graphql:app commandLine', () => {
   beforeAll(() => {
     return helpers
-      .run(path.join(__dirname, '../generators/app'))
+      .run(path.join(__dirname, '../app'))
       .withArguments(['testDir'])
       .withPrompts({
         projectName: 'test',
@@ -72,7 +72,7 @@ describe('generator-node-graphql:app commandLine', () => {
 describe('generator-node-graphql:app commandLine defaults', () => {
   beforeAll(() => {
     return helpers
-      .run(path.join(__dirname, '../generators/app'))
+      .run(path.join(__dirname, '../app'))
       .withOptions({ default: true });
   });
 
@@ -97,7 +97,7 @@ describe('generator-node-graphql:app commandLine defaults', () => {
 describe('generator-node-graphql:app javascript', () => {
   beforeAll(() => {
     return helpers
-      .run(path.join(__dirname, '../generators/app'))
+      .run(path.join(__dirname, '../app'))
       .withArguments(['testDir'])
       .withPrompts({
         projectName: 'test',
