@@ -37,7 +37,7 @@
     ],
     "scripts": {
         "pretest": "eslint .",
-        "test": "jest --testPathIgnorePatterns=generators/app/templates",
+        "test": "jest --testPathIgnorePatterns=app/templates --testPathIgnorePatterns=typescript --testPathIgnorePatterns=javascript",
         "generator": "yo node-graphql"
     },
     "jest": {

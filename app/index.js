@@ -90,119 +90,31 @@ module.exports = class extends Generator {
     }
   }
 
-  writing() {
-    const install = (packages, options) => {
-      if (this.questions.packageManager === 'npm') {
-        this.npmInstall(packages, options);
-      }
-      if (this.questions.packageManager === 'yarn') {
-        this.yarnInstall(packages, options);
-      }
-    };
-
+  default() {
     const parentFolder = this.options.parentFolder ? this.options.parentFolder + "/" : "";
-    const codeFolder = this.questions.type + "/";
-    const fileExtension = this.questions.type === 'typescript' ? '.ts' : '.js';
     const db = this.questions.database;
     const auth = this.questions.auth;
 
-    const jestScript = this.questions.type === 'typescript'
-      ? 'jest --runInBand ./tests'
-      : 'node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand';
-    const transform = this.questions.type === 'typescript'
-      ? {
-        '\\.(gql|graphql)$': 'jest-transform-graphql',
-        '^.+\\.jsx?$': 'babel-jest',
-        '^.+\\.tsx?$': 'ts-jest',
-      }
-      : {
-        '\\.(gql|graphql)$': 'jest-transform-graphql',
-      };
-    const module = this.questions.type === 'typescript' ? {} : { type: "module" };
-    const pkg = this.fs.readJSON(this.destinationPath('package.json'), {
-      ...module,
-      scripts: {
-        dist: 'node -r ts-node/register ./src/server' + fileExtension,
-        'start:watch': 'nodemon',
-        dev: 'nodemon --exec ts-node src/server' + fileExtension,
-        test: jestScript,
-        'clear-cache': 'jest --clearCache',
-        coverage: 'jest --coverage',
-      },
-      jest: {
-        testEnvironment: 'node',
-        transform: transform,
-        collectCoverageFrom: [
-          "src/**/*.{ts,js}",
-          "!src/server" + fileExtension,
-        ],
-      },
-      resolutions: {
-        graphql: '^15.3.0',
-      },
-      license: "MIT",
-    });
-
-    install([
-      'express',
-      'apollo-server',
-      'apollo-server-express',
-      'graphql@^15.3.0',
-      'graphql-import-node',
-      'graphql-tag',
-      '@graphql-tools/merge',
-      'dotenv',
-    ]);
-
-    const packages = this.questions.type === 'typescript'
-      ? [
-        '@types/express',
-        '@types/node',
-        '@typescript-eslint/eslint-plugin@latest',
-        '@typescript-eslint/parser@latest',
-        '@types/jest',
-        'typescript',
-        'ts-node',
-        'ts-jest',
-        'jest',
-      ]
-      : [ 'jest' ];
-
-    install([
-      ...packages,
-      'eslint',
-      'eslint-plugin-import',
-      'nodemon',
-      'faker',
-      'easygraphql-tester',
-      'jest-transform-graphql',
-      'mongodb-memory-server',
-    ], { 'save-dev': true });
-
-    if (auth === 'JWT') {
-      install([
-        'jsonwebtoken',
-        'express-jwt',
-        'bcrypt',
-      ]);
+    if (this.questions.type === 'typescript') {
+      this.composeWith(require.resolve('../typescript'), {
+        parentFolder,
+        db,
+        auth,
+        packageManager: this.questions.packageManager,
+      });
+    } else {
+      this.composeWith(require.resolve('../javascript'), {
+        parentFolder,
+        db,
+        auth,
+        packageManager: this.questions.packageManager,
+      });
     }
+  }
 
-    if (db === 'noSQL') {
-      install([
-        'mongoose',
-      ]);
-      install([
-        '@types/mongoose',
-        'mongodb-memory-server',
-      ], { 'save-dev': true });
-    }
+  writing() {
+    const parentFolder = this.options.parentFolder ? this.options.parentFolder + "/" : "";
 
-    this.fs.writeJSON(this.destinationPath(parentFolder + 'package.json'), pkg);
-
-    this.fs.copyTpl(
-      this.templatePath(codeFolder + 'server' + fileExtension),
-      this.destinationPath(parentFolder + 'src/server' + fileExtension)
-    );
     this.fs.copyTpl(
       this.templatePath('gitignore'),
       this.destinationPath(parentFolder + '.gitignore')
@@ -211,19 +123,10 @@ module.exports = class extends Generator {
       this.templatePath('.eslintrc.json'),
       this.destinationPath(parentFolder + '.eslintrc.json')
     );
-    if (this.questions.type === 'typescript') {
-      this.fs.copyTpl(
-        this.templatePath(codeFolder + 'tsconfig.json'),
-        this.destinationPath(parentFolder + 'tsconfig.json')
-      );
-    }
+
     this.fs.copyTpl(
       this.templatePath('user.graphql'),
       this.destinationPath(parentFolder + 'src/graphql/schemas/user.graphql')
-    );
-    this.fs.copyTpl(
-      this.templatePath(codeFolder + 'userResolver' + fileExtension),
-      this.destinationPath(parentFolder + 'src/graphql/resolvers/userResolver' + fileExtension)
     );
 
     this.fs.copyTpl(this.templatePath('.env'), this.destinationPath(parentFolder + '.env'), {
@@ -237,21 +140,6 @@ module.exports = class extends Generator {
       projectName: this.questions.projectName,
       pkm: this.questions.packageManager ? 'yarn' : 'npm run',
     });
-
-    // This is noSQL specific
-    this.fs.copyTpl(
-      this.templatePath(codeFolder + 'userModel' + fileExtension),
-      this.destinationPath(parentFolder + 'src/models/userModel' + fileExtension)
-    );
-
-    this.fs.copyTpl(
-      this.templatePath(codeFolder + 'dbHandler' + fileExtension),
-      this.destinationPath(parentFolder + 'tests/dbHandler' + fileExtension)
-    );
-    this.fs.copyTpl(
-      this.templatePath(codeFolder + 'userResolver.test' + fileExtension),
-      this.destinationPath(parentFolder + 'tests/resolvers/userResolver.test' + fileExtension)
-    );
   }
 
   install() {
