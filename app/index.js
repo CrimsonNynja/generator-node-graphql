@@ -49,7 +49,21 @@ module.exports = class extends Generator {
           message: 'enter database name: ',
           default: 'node-graphql',
           when: (answers) => answers.defaultDB === false,
-        }, // Need to add username and password as well
+        },
+        {
+          type: 'input',
+          name: 'DbUserName',
+          message: 'enter database username: ',
+          default: '',
+          when: (answers) => answers.defaultDB === false,
+        },
+        {
+          type: 'input',
+          name: 'DbPassword',
+          message: 'enter database password: ',
+          default: '',
+          when: (answers) => answers.defaultDB === false,
+        },
         {
           type: 'list',
           name: 'auth',
@@ -133,6 +147,8 @@ module.exports = class extends Generator {
       dbHost: this.questions.defaultDB ? 'localhost' : this.questions.DbHost,
       dbPort: this.questions.defaultDB ? '27017' : this.questions.DbPort,
       dbName: this.questions.defaultDB ? this.questions.projectName : this.questions.DbName,
+      dbUserName: this.questions.defaultDB ? '' : this.questions.DbUserName,
+      dbPassword: this.questions.defaultDB ? '' : this.questions.DbPassword,
       jwtSecret: this.questions.secretKey,
     });
 

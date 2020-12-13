@@ -21,6 +21,8 @@ Mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`, {
   useFindAndModify: false,
   useCreateIndex: true,
   dbName: process.env.DB_NAME,
+  user: process.env.DB_USERNAME,
+  pass: process.env.DB_PASSWORD,
 });
 
 const types = mergeTypeDefs([user]);
