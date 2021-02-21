@@ -14,7 +14,7 @@
         "url": "https://github.com/CrimsonNynja"
     },
     "publishConfig": {
-      "registry": "https://npm.pkg.github.com/CrimsonNynja/"
+        "registry": "https://npm.pkg.github.com/CrimsonNynja/"
     },
     "contributors": [
         {
