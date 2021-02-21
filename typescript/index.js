@@ -15,8 +15,6 @@ module.exports = class extends Generator {
     const auth = this.options.auth;
     const db = this.options.db;
     const packageManager = this.options.packageManager;
-    console.log('packageManager outer: ', packageManager);
-
     const pkg = this.fs.readJSON(this.destinationPath('package.json'), {
       scripts: {
         dist: 'node -r ts-node/register ./src/server.ts',
