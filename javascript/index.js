@@ -67,7 +67,7 @@ module.exports = class extends Generator {
       'eslint',
       'eslint-plugin-import',
       'nodemon',
-      'faker',
+      '@faker-js/faker',
       'easygraphql-tester',
       'jest-transform-graphql',
       'mongodb-memory-server',

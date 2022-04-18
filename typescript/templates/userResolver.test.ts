@@ -1,6 +1,6 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import EasyGraphQLTester from 'easygraphql-tester';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 
 import * as dotenv from 'dotenv';
