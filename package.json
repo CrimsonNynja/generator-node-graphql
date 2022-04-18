@@ -44,7 +44,7 @@
         "testEnvironment": "node"
     },
     "devDependencies": {
-        "eslint": "^7.10.0",
+        "eslint": "8.13.0",
         "yeoman-assert": "^3.1.1",
         "yeoman-test": "^3.0.0"
     },
